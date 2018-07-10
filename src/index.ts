@@ -1,17 +1,9 @@
 import http = require('http');
 import config = require('./config');
+import serverHandler = require('./server');
 
 const server = http.createServer((req, res) => {
-    
-    let payload = {
-        'Requested Path': req.url
-    };
-    let payloadString = JSON.stringify(payload);
-
-    res.setHeader('Content-Type', 'application/json');
-    res.writeHead(200);
-
-    res.end(payloadString);
+    serverHandler.default(req, res);
 });
 
 server.listen(config.default.PORT, (error) => {
