@@ -1,11 +1,30 @@
 import url = require('url');
 
+// Test dependencies, remove for production
+import pug = require('pug');
+import path = require('path');
+
 const serverHandler = (req, res) => {
     let parsedUrl = url.parse(req.url, true);
-    let path = parsedUrl.pathname;
+    let _path = parsedUrl.pathname;
 
     // Not used yet, but will be utilized for regulating paths and routing requests
-    let trimmedPath = path.replace(/^\/+|\/+$/g, '');
+    let trimmedPath = _path.replace(/^\/+|\/+$/g, '');
+
+    // TESTING PUG ENGINE, REMOVE ON PRODUCTION
+    if (trimmedPath === 'test') {
+        console.log('test path triggered');
+        let file = path.join(__dirname, '../client/views/index.pug');
+        let renderedFile = pug.renderFile(file, {test: 'Hayo'});
+
+        res.setHeader('Content-Type', 'text/html');
+        res.writeHead(200);
+        
+        res.end(renderedFile);
+
+        return console.log('Rendered template for test path.');
+    }
+    // END OF TESTS
 
     let payload = {
         'Requested Path': trimmedPath
