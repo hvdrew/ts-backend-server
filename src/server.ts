@@ -1,31 +1,34 @@
+// Dependencies
 import url = require('url');
 import router = require('./route/index');
 
+// Interfaces
+interface HeaderData {
+    payload: any;
+    contentType: string;
+};
+
 const serverHandler = (req, res) => {
     // Break up the requested URL, then pull the path from it
-    let parsedUrl = url.parse(req.url, true);
-    let _path = parsedUrl.pathname;
-
-    // REMOVE LINE BELOW - TESTING ONLY
-    console.log(_path);
-    // REMOVE LINE ABOVE - TESTING ONLY
+    let parsedUrl: url.UrlWithParsedQuery = url.parse(req.url, true);
+    let _path: string = parsedUrl.pathname;
 
     // Trim up the path to make it clean and consistent
-    let trimmedPath = _path.replace(/^\/+|\/+$/g, '');
+    let trimmedPath: string = _path.replace(/^\/+|\/+$/g, '');
 
-    // Setup the data object to send into the router
+    // Setup the data object to send into the router 
     let data = {
         'trimmedPath': trimmedPath,
-        '_path': _path,
+        'fullPath': _path,
         'parsedUrl': parsedUrl
     };
 
     // Have the router determine what headers to use and prepare the payload
-    let headerData = router.default(data.trimmedPath, data);
+    let headerData: HeaderData = router.default(data);
 
     // Write Headers for the response
     res.writeHead(200, {
-        'Content-Type': 'text/html',
+        'Content-Type': headerData.contentType,
         'Content-Encoding': 'identity',
         'charset': 'utf-8'
     });

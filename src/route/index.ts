@@ -1,50 +1,35 @@
-// import clientRouter = require('./client/index');
-import renderHelper = require('../lib/render/index');
+// Dependency/Helper imports
+import url = require('url');
+import path = require('path');
+import pug = require('pug');
 
-// Pass the trimmedPath into this function to filter traffic to it's designated handlers
-const chooseRoute = (path, data) => {
-    if (path.indexOf('api') === 0) {
-        // Pass data into API handler for further processing
-        let payload = {
-            'Requested Path': data.trimmedPath
-        };
+// Interfaces
+interface RequestData {
+    trimmedPath: string;
+    fullPath: string;
+    parsedUrl: url.UrlWithParsedQuery;
+}
 
-        let payloadString = JSON.stringify(payload);
-        let contentType = 'application/json';
+const baseViewPath = path.join(__dirname, '../../client/views/');
 
-        let returnValue = {
-            'payload': payloadString,
-            'contentType': contentType
-        };
-        
-        return returnValue; 
-    } else if (path.indexOf('admin') === 0) {
-        // Pass data into Admin handler for further processing
-    } else if (path.indexOf('public') === 0) {
-        // Logic to serve static assets should go here
+const renderedViews = {
+    'index': pug.renderFile(baseViewPath + 'index.pug'),
+    '404': pug.renderFile(baseViewPath + '404.pug')
+};
 
-        // Placeholder logic to prevent crashes
-        let returnValue = {
-            'payload': '',
-            'contentType': 'text/html'
-        };
-
-        return returnValue;
-    } else {
-        // chooseClientRoute.default(path, data);
-        let payload = renderHelper.default('index', {
-            'path': path
-        });
-        let contentType = 'text/html';
-
-        let returnValue = {
-            'payload': payload,
-            'contentType': contentType
-        };
-
-        return returnValue;
-        // Render a template file for now
+const mainRouter = (data: RequestData) => {
+    switch ( data.fullPath ) {
+        case '/':
+            return {
+                'payload': renderedViews['index'],
+                'contentType': 'text/html'
+            }
+        default:
+            return {
+                'payload': renderedViews['404'],
+                'contentType': 'text/html'
+            }
     }
 };
 
-export default chooseRoute;
+export default mainRouter;
