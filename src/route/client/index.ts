@@ -1,46 +1,20 @@
-// // Dependencies
-// import renderFile = require('../../lib/render/index');
+// Import dependencies
+import fs = require('fs');
+import path = require('path');
 
-// // Interfaces
-// interface HandlerObject {
-//     [key: string]: function;
-// };
-
-// const chooseRoute = (path, data) => {
-//     let chosenRoute = typeof(router[path]) !== 'undefined' ? router[path] : 'notFound';
-//     let chosenHandler = handlers[chosenRoute];
-
-//     chosenHandler(data, (statusCode, payload) => {
-
-//     });
-// };
+// Determine if the request is for a view or a static asset
 
 
-// // Handler Object Initialization
-// const handlers: HandlerObject = {};
+// If the request is for a view render it and return a payload
 
-// // Not Found handler (default handler for any invalid route)
-// handlers.notFound = (data, callback) => {
-//     let payload = renderFile.default('not-found', {
-//         'requested-path': data.path
-//     });    
-//     callback(404, payload);
-// };
 
-// handlers.index = (data, callback) => {
-//     let payload = renderFile.default('index');
-//     callback(200, payload);
-// };
+// If the request was for a static asset open it with fs and return it as a payload
 
-// // Router object to map view files to routes
-// const router: Object = {
-//     '': 'index'
-// };
 
-// // Preparing for export
-// const exportContents = {
-//     'router': router,
-//     'handlers': handlers
-// };
+// PLACEHOLDERS TO GET RID OF COMPILE ERRORS
+const test = {
+    'payload': '',
+    'contentType': 'text/html'
+};
 
-// export default exportContents;
+export default test;

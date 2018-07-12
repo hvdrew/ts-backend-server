@@ -5,15 +5,21 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch & nodemon dist"
+    "watch": "tsc --watch",
+    "dev": "nodemon dist",
+    "build-css": "node-sass --include-path node_modules/ client/scss/ -o client/public/styles/",
+    "watch-css": "node-sass --include-path node_modules/ -w client/scss client/scss/ -o client/public/styles/"
   },
   "author": "Andrew Merison",
   "license": "MIT",
   "devDependencies": {
-    "nodemon": "^1.17.5"
+    "nodemon": "^1.17.5",
+    "bulma": "^0.7.1",
+    "node-sass": "^4.9.2"
   },
   "dependencies": {
     "@types/node": "^10.5.2",
+    "@types/pug": "^2.0.4",
     "pug": "^2.0.3"
   }
 }

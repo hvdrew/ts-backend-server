@@ -3,7 +3,6 @@ import path = require('path');
 
 const resolveViewPath = (view) => {
     let viewPath = path.join(__dirname, `../../../client/views/${view}.pug`);
-    console.log(viewPath);
     return viewPath;
 };
 

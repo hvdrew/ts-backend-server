@@ -1,4 +1,4 @@
-// import chooseClientRoute = require('./client/index');
+// import clientRouter = require('./client/index');
 import renderHelper = require('../lib/render/index');
 
 // Pass the trimmedPath into this function to filter traffic to it's designated handlers
@@ -20,6 +20,16 @@ const chooseRoute = (path, data) => {
         return returnValue; 
     } else if (path.indexOf('admin') === 0) {
         // Pass data into Admin handler for further processing
+    } else if (path.indexOf('public') === 0) {
+        // Logic to serve static assets should go here
+
+        // Placeholder logic to prevent crashes
+        let returnValue = {
+            'payload': '',
+            'contentType': 'text/html'
+        };
+
+        return returnValue;
     } else {
         // chooseClientRoute.default(path, data);
         let payload = renderHelper.default('index', {
