@@ -1,40 +1,40 @@
+// Dependencies
 import url = require('url');
 import router = require('./route/index');
 
-// Test dependencies, remove for production
-import pug = require('pug');
-import path = require('path');
+// Interfaces
+interface HeaderData {
+    payload: any;
+    contentType: string;
+};
 
 const serverHandler = (req, res) => {
-    let parsedUrl = url.parse(req.url, true);
-    let _path = parsedUrl.pathname;
+    // Break up the requested URL, then pull the path from it
+    let parsedUrl: url.UrlWithParsedQuery = url.parse(req.url, true);
+    let _path: string = parsedUrl.pathname;
 
-    let trimmedPath = _path.replace(/^\/+|\/+$/g, '');
+    // Trim up the path to make it clean and consistent
+    let trimmedPath: string = _path.replace(/^\/+|\/+$/g, '');
 
+    // Setup the data object to send into the router 
     let data = {
         'trimmedPath': trimmedPath,
-        '_path': _path,
+        'fullPath': _path,
         'parsedUrl': parsedUrl
     };
 
-    let headerData = router.default(data.trimmedPath, data);
+    // Have the router determine what headers to use and prepare the payload
+    let headerData: HeaderData = router.default(data);
 
-    res.setHeader('Content-Type', headerData.contentType);
-    res.writeHead(200);
+    // Write Headers for the response
+    res.writeHead(200, {
+        'Content-Type': headerData.contentType,
+        'Content-Encoding': 'identity',
+        'charset': 'utf-8'
+    });
+
+    // Send the payload that was chosen by the router
     res.end(headerData.payload);
-
-    // let payload = {
-    //     'Requested Path': trimmedPath
-    // };
-
-    // let payloadString = JSON.stringify(payload);
-
-    // res.setHeader('Content-Type', 'application/json');
-    // res.writeHead(200);
-
-    // res.end(payloadString);
-
-    // console.log(payloadString);
 };
 
 export default serverHandler;
