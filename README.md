@@ -1,5 +1,5 @@
 # Typescript Server
-This project aims to solve all of the problems I have with backend frameworks by being built from the ground up with no external dependencies. Well, it does use Pug and some dev dependencies, but I'm not fucking with those libraries anytime soon.
+This project aims to solve all of the problems I have with backend frameworks by being built from the ground up with no external dependencies. Well, it does use Pug and some dev dependencies, but I'm not messing with those libraries anytime soon.
 
 ### Setup and Usage
 
